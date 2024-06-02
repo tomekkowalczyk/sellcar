@@ -1,9 +1,9 @@
 <?php
 
-use App\Entity\BasicCar;
-use App\Entity\BusinessCar;
-use App\Entity\RSCar;
-use App\Entity\SuvCar;
+use App\Model\Entity\BasicCar;
+use App\Model\Entity\BusinessCar;
+use App\Model\Entity\RSCar;
+use App\Model\Entity\SuvCar;
 
 it('can create a basic SUV car', function () {
     $car = new BasicCar(new SuvCar());

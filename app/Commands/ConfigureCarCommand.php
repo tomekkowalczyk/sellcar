@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Commands;
 
-use App\Facade\CarFacade;
+use App\Facade\CarConfiguratorFacade;
+use App\Model\Enum\CarType;
+use App\Model\Enum\CarVersion;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
@@ -30,13 +34,15 @@ class ConfigureCarCommand extends Command
      */
     public function handle(): void
     {
-        $facade = new CarFacade();
+        $facade = new CarConfiguratorFacade();
 
-        $type = $this->choice('Wybierz typ pojazdu:', ['SUV', 'Sedan'], 0);
-        $facade->selectCarType($type);
+        $type = $this->choice('Wybierz typ pojazdu:', CarType::getValues(), 0);
+        $carType = CarType::fromString($type);
+        $facade->selectCarType($carType);
 
-        $version = $this->choice('Wybierz wersję pojazdu:', ['Basic', 'Business', 'RS'], 0);
-        $facade->selectCarVersion($version);
+        $version = $this->choice('Wybierz wersję pojazdu:', CarVersion::getValues(), 0);
+        $carVersion = CarVersion::fromString($version);
+        $facade->selectCarVersion($carVersion);
 
         $elements = ['SoundSystem', 'BiggerWheels', 'Suspension', 'LEDLights', 'LeatherSeats'];
         while ($this->confirm('Czy chcesz dodać element do konfiguracji?')) {

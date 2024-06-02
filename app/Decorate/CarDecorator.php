@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Decorate;
 
-use App\Entity\Car;
+use App\Model\Entity\Car;
 
 abstract class CarDecorator extends Car
 {

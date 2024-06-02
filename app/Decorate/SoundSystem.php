@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace App\Decorate;
 
-use App\Entity\Car;
-
 class SoundSystem extends CarDecorator
 {
     public function getDescription(): string
