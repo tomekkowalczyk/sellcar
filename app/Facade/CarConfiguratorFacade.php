@@ -20,7 +20,7 @@ use App\Model\Enum\CarVersion;
 
 class CarConfiguratorFacade
 {
-    private Car $car;
+    public Car $car;
 
     /**
      * @throws \Exception

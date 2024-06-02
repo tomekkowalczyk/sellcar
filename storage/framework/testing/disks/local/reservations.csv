@@ -1,0 +1,4 @@
+carType,carVersion,elements,costs
+Sedan,2022,LeatherSeats,100000
+SUV,2023,"SoundSystem,BiggerWheels",150000
+Truck,2021,"Suspension,LEDLights",200000

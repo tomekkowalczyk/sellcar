@@ -7,6 +7,7 @@ namespace App\Commands;
 use App\Facade\CarConfiguratorFacade;
 use App\Model\Enum\CarType;
 use App\Model\Enum\CarVersion;
+use App\Repositories\CsvCarRepository;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
@@ -48,9 +49,19 @@ class ConfigureCarCommand extends Command
         while ($this->confirm('Czy chcesz dodać element do konfiguracji?')) {
             $element = $this->choice('Wybierz element do dodania:', $elements, 0);
             $facade->addElement($element);
+            $elements[] = $element;
         }
 
         $facade->purchaseCar();
+        $costs = $facade->car->cost();
+
+        $csvSave = new CsvCarRepository();
+        $csvSave->save([
+            'carType' => $carType->value,
+            'carVersion' => $carVersion->value,
+            'elements' => $elements,
+            'costs' => $costs
+        ]);
 
         render(<<<'HTML'
             <div class="py-1 ml-2">
@@ -67,6 +78,5 @@ class ConfigureCarCommand extends Command
      */
     public function schedule(Schedule $schedule): void
     {
-        // $schedule->command(static::class)->everyMinute();
     }
 }
