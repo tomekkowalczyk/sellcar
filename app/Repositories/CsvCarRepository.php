@@ -52,7 +52,7 @@ class CsvCarRepository implements CarRepository
             $csv = Writer::createFromPath($disk->path(self::FILE_PATH), 'a+');
         } else {
             $csv = Writer::createFromFileObject(new SplTempFileObject());
-            $csv->insertOne(['carType', 'carVersion', 'elements', 'costs']);
+            $csv->insertOne(['carType', 'carVersion', 'elements', 'costs, status']);
             $disk->put(self::FILE_PATH, $csv->toString());
             $csv = Writer::createFromPath($disk->path(self::FILE_PATH), 'a+');
         }
@@ -61,7 +61,8 @@ class CsvCarRepository implements CarRepository
             $data['carType'],
             $data['carVersion'],
             implode(',', $data['elements']),
-            $data['costs']
+            $data['costs'],
+            'New'
         ]);
     }
 
@@ -105,5 +106,36 @@ class CsvCarRepository implements CarRepository
         }
 
         return true;
+    }
+
+    public function getAll(): array
+    {
+        if (!Storage::disk('local')->exists(self::FILE_PATH)) {
+            throw new \Exception("CSV file does not exist.");
+        }
+
+        $csv = Reader::createFromPath(Storage::disk('local')->path(self::FILE_PATH), 'r');
+        $csv->setHeaderOffset(0);
+
+        return iterator_to_array($csv->getRecords());
+    }
+
+    public function saveAll(array $reservations): void
+    {
+        $disk = Storage::disk('local');
+        $csv = Writer::createFromFileObject(new SplTempFileObject());
+        $csv->insertOne(['carType', 'carVersion', 'elements', 'costs', 'status']);
+        $disk->put(self::FILE_PATH, $csv->toString());
+        $csv = Writer::createFromPath($disk->path(self::FILE_PATH), 'a+');
+
+        foreach ($reservations as $reservation) {
+            $csv->insertOne([
+                $reservation['carType'],
+                $reservation['carVersion'],
+                $reservation['elements'],
+                $reservation['costs'],
+                $reservation['status'] ?? 'unknown'
+            ]);
+        }
     }
 }

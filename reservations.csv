@@ -1,0 +1,12 @@
+carType,carVersion,elements,costs,status
+Sedan,Business,"Suspension,LEDLights",36169,NEW
+SUV,Basic,Suspension,68931
+Sedan,Business,"BiggerWheels,LEDLights,SoundSystem",74082
+SUV,Basic,LeatherSeats,72753
+SUV,Business,BiggerWheels,110307
+SUV,RS,"BiggerWheels,Suspension,LeatherSeats",118259
+SUV,Basic,"LEDLights,BiggerWheels",64511
+SUV,Business,"Suspension,SoundSystem,LEDLights",93869
+Sedan,Business,"LEDLights,BiggerWheels,SoundSystem",48614
+Sedan,Basic,"LeatherSeats,LEDLights,SoundSystem",48363
+Sedan,Basic,"SoundSystem,BiggerWheels,Suspension,LEDLights,LeatherSeats",80000
