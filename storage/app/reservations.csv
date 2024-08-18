@@ -9,3 +9,5 @@ SUV,Basic,"LEDLights,BiggerWheels",64511,unknown
 SUV,Business,"Suspension,SoundSystem,LEDLights",93869,unknown
 Sedan,Business,"LEDLights,BiggerWheels,SoundSystem",48614,New
 Sedan,Basic,"LeatherSeats,LEDLights,SoundSystem",48363,unknown
+Sedan,Basic,"SoundSystem,BiggerWheels,Suspension,LEDLights,LeatherSeats",80000,New
+Sedan,Basic,"SoundSystem,BiggerWheels,Suspension,LEDLights,LeatherSeats",80000,New

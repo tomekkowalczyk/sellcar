@@ -7,7 +7,9 @@ namespace App\Commands;
 use App\Facade\CarConfiguratorFacade;
 use App\Model\Enum\CarType;
 use App\Model\Enum\CarVersion;
+use App\Observe\CarOrderObserver;
 use App\Repositories\CsvCarRepository;
+use App\Strategy\EamailNotificationStrategy;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
@@ -36,6 +38,9 @@ class ConfigureCarCommand extends Command
     public function handle(): void
     {
         $facade = new CarConfiguratorFacade();
+        $emailStrategy = new EamailNotificationStrategy();
+        $carOrderObserver = new CarOrderObserver($emailStrategy);
+        $facade->attach($carOrderObserver);
 
         $type = $this->choice('Wybierz typ pojazdu:', CarType::getValues(), 0);
         $carType = CarType::fromString($type);
@@ -60,7 +65,8 @@ class ConfigureCarCommand extends Command
             'carType' => $carType->value,
             'carVersion' => $carVersion->value,
             'elements' => $elements,
-            'costs' => $costs
+            'costs' => $costs,
+            'status' => 'New'
         ]);
 
         render(<<<'HTML'

@@ -17,8 +17,9 @@ use App\Model\Entity\SedanCar;
 use App\Model\Entity\SuvCar;
 use App\Model\Enum\CarType;
 use App\Model\Enum\CarVersion;
+use App\Observe\Subject;
 
-class CarConfiguratorFacade
+class CarConfiguratorFacade extends Subject
 {
     public Car $car;
 
@@ -27,11 +28,14 @@ class CarConfiguratorFacade
      */
     public function selectCarType(CarType $type): void
     {
+
         $this->car = match ($type) {
             CarType::SUV => new SUVCar(),
             CarType::SEDAN => new SedanCar(),
             default => throw new \Exception("Invalid car type selected."),
         };
+
+        $this->notify('carTypeSelected', ['carType' => $type]);
     }
 
     /**
@@ -63,5 +67,10 @@ class CarConfiguratorFacade
     {
         echo "Car Description: " . $this->car->getDescription() . "\n";
         echo "Total Cost: " . $this->car->cost() . " PLN\n";
+
+        $this->notify('carPurchased', [
+            'carDescription' => $this->car->getDescription(),
+            'costs' => $this->car->cost(),
+        ]);
     }
 }
